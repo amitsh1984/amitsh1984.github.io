@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Amit Sharma, Documentation Leader</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a documentation site turned portfolio. Sticky table of contents on the left, content column on the right,
+   redline (ins/del) marks as the one signature device, career laid out as a changelog. */
+:root{
+  --paper:#f7f8fa;
+  --surface:#ffffff;
+  --ink:#16202b;
+  --muted:#556270;
+  --rule:#dde2e8;
+  --accent:#1f5fa8;      /* insertion blue */
+  --accent-soft:#e3edf8;
+  --del:#b4232f;         /* deletion red */
+  --del-soft:#fbe7e8;
+  --tk:#8a5a00;
+  --tk-soft:#fff3d6;
+  --display:"Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --body:"Literata", Georgia, "Times New Roman", serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0f141a; --surface:#161d25; --ink:#e6ebf1; --muted:#9aa7b5; --rule:#2a3440;
+    --accent:#7fb0ec; --accent-soft:#1a2b40; --del:#f08088; --del-soft:#3a1c20;
+    --tk:#f0c46a; --tk-soft:#3a2e12; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0f141a; --surface:#161d25; --ink:#e6ebf1; --muted:#9aa7b5; --rule:#2a3440;
+  --accent:#7fb0ec; --accent-soft:#1a2b40; --del:#f08088; --del-soft:#3a1c20;
+  --tk:#f0c46a; --tk-soft:#3a2e12; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.65;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+.shell{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:200px minmax(0,1fr);gap:56px;padding-block:56px 80px}
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 32px);align-self:start;font-family:var(--mono);font-size:12.5px}
+.toc .label{letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.toc ol{list-style:none;margin:0;padding:0;border-left:1px solid var(--rule);display:grid;gap:2px}
+.toc a{display:block;padding:4px 0 4px 14px;color:var(--muted);text-decoration:none;margin-left:-1px;border-left:1px solid transparent}
+.toc a:hover{color:var(--ink);border-left-color:var(--accent)}
+.toc .meta{margin-top:24px;color:var(--muted);line-height:1.6}
+
+main{min-width:0;display:grid;gap:88px}
+section{scroll-margin-top:32px}
+.eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.12}
+h1{font-size:clamp(40px,6vw,68px);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(26px,3vw,34px);font-weight:700;letter-spacing:-.01em;margin-bottom:20px}
+h3{font-size:20px;font-weight:700}
+p{margin:0;max-width:65ch}
+
+/* Redline marks */
+del{color:var(--del);background:var(--del-soft);text-decoration:line-through;text-decoration-thickness:2px;padding:0 .08em}
+ins{color:var(--accent);background:var(--accent-soft);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:6px;padding:0 .08em}
+.tk{font-family:var(--mono);font-size:.82em;color:var(--tk);background:var(--tk-soft);padding:1px 6px;border-radius:3px;white-space:nowrap}
+
+/* Hero */
+.hero{display:grid;gap:28px;padding-top:8px}
+.hero .lede{font-size:20px;color:var(--muted);max-width:60ch}
+.hero .lede strong{color:var(--ink);font-weight:600}
+.facts{display:flex;flex-wrap:wrap;gap:10px 28px;font-family:var(--mono);font-size:13px;color:var(--muted);padding-top:20px;border-top:1px solid var(--rule)}
+.facts b{color:var(--ink);font-weight:600}
+
+/* Principles */
+.principles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 48px;margin-top:8px}
+.principle h3{margin-bottom:8px}
+.principle .rule{font-family:var(--mono);font-size:12px;color:var(--accent);margin-bottom:6px;letter-spacing:.04em}
+.principle p{color:var(--muted);font-size:16px}
+
+/* Case studies */
+.cases{display:grid;gap:0;border-top:1px solid var(--rule)}
+.case{display:grid;grid-template-columns:180px minmax(0,1fr);gap:32px;padding:32px 0;border-bottom:1px solid var(--rule)}
+.case .tag{font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.7}
+.case .tag span{display:block;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.case h3{font-size:22px;margin-bottom:12px}
+.case p{font-size:16.5px}
+.case dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 18px;margin:16px 0 0;font-size:15.5px}
+.case dt{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding-top:4px}
+.case dd{margin:0;max-width:62ch}
+
+/* Specimen: a real-looking redline sample */
+.specimen{background:var(--surface);border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+.specimen header{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--muted);padding:10px 18px;border-bottom:1px solid var(--rule)}
+.specimen .body{padding:22px 24px;display:grid;gap:14px;font-size:16px}
+.specimen .note{font-family:var(--mono);font-size:12.5px;color:var(--muted);border-left:2px solid var(--accent);padding-left:12px}
+
+/* Leadership */
+.split{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px}
+ul.clean{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+ul.clean li{padding-left:22px;position:relative;font-size:16.5px}
+ul.clean li::before{content:"+";position:absolute;left:0;top:0;font-family:var(--mono);color:var(--accent);font-weight:600}
+
+/* Toolkit */
+.toolkit{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 40px}
+.impact{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:2px solid var(--ink);border-left:1px solid var(--rule)}
+.stat{padding:22px 22px 24px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);display:grid;gap:6px;align-content:start}
+.stat .n{font-family:var(--display);font-weight:800;font-size:clamp(34px,4vw,46px);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat .n small{font-size:.45em;font-weight:700;color:var(--muted);margin-left:4px;letter-spacing:0}
+.stat .n del{font-size:.6em;margin-right:8px}
+.stat .l{font-size:15px;line-height:1.45}
+.stat .s{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.intg{margin-top:18px;overflow-x:auto}
+.intg table{border-collapse:collapse;width:100%;min-width:320px;font-size:14.5px}
+.intg th,.intg td{text-align:left;padding:7px 12px 7px 0;border-bottom:1px solid var(--rule)}
+.intg th{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.intg td.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;padding-right:0}
+.intg th.num{text-align:right;padding-right:0}
+.flow{display:grid;border-top:2px solid var(--ink);margin-top:8px}
+.step{display:grid;grid-template-columns:44px 190px minmax(0,1fr) minmax(0,1fr);gap:20px;padding:18px 0;border-bottom:1px solid var(--rule);align-items:start}
+.step .no{font-family:var(--mono);font-size:13px;color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums}
+.step h3{font-size:17px}
+.step .lead{display:inline-block;margin-top:6px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:3px}
+.lead.h{background:var(--surface);border:1px solid var(--rule);color:var(--ink)}
+.lead.a{background:var(--accent-soft);color:var(--accent)}
+.lead.s{background:var(--tk-soft);color:var(--tk)}
+.step .col{font-size:15px;line-height:1.55}
+.step .col b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:3px}
+.flow-head{display:grid;grid-template-columns:44px 190px minmax(0,1fr) minmax(0,1fr);gap:20px;padding:0 0 10px;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.guard{margin-top:22px;padding:18px 22px;background:var(--surface);border:1px solid var(--rule);border-radius:6px;font-size:16px;max-width:none}
+@media (max-width:860px){.flow-head{display:none}.step{grid-template-columns:36px minmax(0,1fr);gap:8px 14px}.step .col{grid-column:2}}
+.chart{margin-top:20px;position:relative}
+.chart h4{font-family:var(--display);font-size:15px;margin:0 0 2px}
+.chart .sub{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:8px}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart .bar{fill:var(--accent)}
+.chart .bar.dim{fill:var(--accent);opacity:.55}
+.chart .hit:hover+.bar,.chart .bar:hover{opacity:1;fill:var(--ink)}
+.chart .grid{stroke:var(--rule);stroke-width:1}
+.chart .ax{fill:var(--muted);font-family:var(--mono);font-size:10px}
+.chart .ann{fill:var(--ink);font-family:var(--mono);font-size:10.5px;font-weight:600}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:12px;padding:6px 9px;border-radius:4px;white-space:nowrap;transform:translate(-50%,-110%)}
+.hero .role{font-family:var(--display);font-size:clamp(19px,2.2vw,23px);font-weight:700;color:var(--ink);max-width:60ch;margin-top:-8px}
+.reach{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:var(--mono);font-size:13px;align-items:center}
+.reach .open{color:var(--accent);background:var(--accent-soft);padding:3px 9px;border-radius:3px}
+.samples{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.sample{display:grid;gap:6px;align-content:start;padding:18px;border:1px solid var(--rule);border-radius:6px;background:var(--surface);text-decoration:none;color:var(--ink)}
+.sample:hover{border-color:var(--accent)}
+.sample .k{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.sample b{font-family:var(--display);font-size:16.5px;line-height:1.3}
+.sample span.w{font-size:14.5px;color:var(--muted);line-height:1.5}
+.sample span.u{font-family:var(--mono);font-size:11.5px;color:var(--muted);overflow-wrap:anywhere}
+.more{margin-top:8px;border-bottom:1px solid var(--rule)}
+.more summary{cursor:pointer;padding:18px 0;font-family:var(--display);font-weight:700;font-size:18px;list-style:none;display:flex;gap:12px;align-items:baseline}
+.more summary::before{content:"+";font-family:var(--mono);color:var(--accent);width:14px}
+.more[open] summary::before{content:"−"}
+.more summary span{font-family:var(--mono);font-size:12px;font-weight:400;color:var(--muted)}
+.more-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 40px;padding:4px 0 28px}
+.more-grid h4{font-family:var(--display);font-size:16px;margin:0 0 6px}
+.more-grid p{font-size:15px;color:var(--muted)}
+@media (max-width:860px){.samples,.more-grid{grid-template-columns:minmax(0,1fr)}}
+.src{margin-top:14px;font-size:13.5px;color:var(--muted);max-width:none}
+@media (max-width:860px){.impact{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.impact{grid-template-columns:minmax(0,1fr)}}
+.creds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px}
+.creds ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.creds li{font-size:16px;padding-bottom:10px;border-bottom:1px solid var(--rule)}
+.creds li small{display:block;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.release .roles{display:grid;gap:14px;margin-top:4px}
+.release .role b{font-family:var(--display);font-size:16px}
+.release .role .d{font-family:var(--mono);font-size:12px;color:var(--muted);margin-left:8px;font-variant-numeric:tabular-nums}
+.release p{font-size:16px}
+.copy{font-family:var(--mono);font-size:12px;background:none;border:1px solid var(--rule);color:var(--ink);border-radius:4px;padding:3px 10px;cursor:pointer}
+.copy:hover{border-color:var(--accent);color:var(--accent)}
+.toolkit h3{font-size:14px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;margin-bottom:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--mono);font-size:12.5px;padding:4px 10px;border:1px solid var(--rule);border-radius:4px;background:var(--surface)}
+
+/* Changelog */
+.changelog{display:grid;gap:0}
+.release{display:grid;grid-template-columns:150px minmax(0,1fr);gap:28px;padding:24px 0;border-top:1px solid var(--rule)}
+.release .ver{font-family:var(--mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.release .ver b{display:block;font-size:15px;color:var(--ink)}
+.release h3{font-size:19px;margin-bottom:8px}
+.release ul{margin:8px 0 0;padding-left:20px;font-size:16px;display:grid;gap:4px}
+.badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-right:6px;vertical-align:2px}
+.badge.cur{background:var(--accent-soft);color:var(--accent)}
+
+/* Contact */
+.contact{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:36px;display:grid;gap:18px}
+.contact .rows{display:grid;gap:10px;font-family:var(--mono);font-size:14px}
+.contact .rows div{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.contact .rows span.k{color:var(--muted);min-width:88px}
+footer{font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:24px;border-top:1px solid var(--rule)}
+
+@media (max-width:860px){
+  .shell{grid-template-columns:minmax(0,1fr);gap:32px;padding-block:32px 56px}
+  nav.toc{position:static}
+  .toc ol{display:flex;flex-wrap:wrap;border-left:0;gap:6px}
+  .toc a{border:1px solid var(--rule);border-radius:4px;padding:4px 10px;margin:0}
+  .toc .meta{display:none}
+  main{gap:64px}
+  .principles,.split,.creds{grid-template-columns:minmax(0,1fr)}
+  .toolkit{grid-template-columns:minmax(0,1fr)}
+  .case,.release{grid-template-columns:minmax(0,1fr);gap:10px}
+  .contact{padding:24px}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+</head>
+<body>
+<div class="shell">
+  <nav class="toc" aria-label="On this page">
+    <div class="label">On this page</div>
+    <ol>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#impact">Impact</a></li>
+      <li><a href="#samples">Writing samples</a></li>
+      <li><a href="#work">Selected work</a></li>
+      <li><a href="#craft-ai">Craft + AI</a></li>
+      <li><a href="#leadership">Leadership</a></li>
+      <li><a href="#toolkit">Toolkit</a></li>
+      <li><a href="#changelog">Career changelog</a></li>
+      <li><a href="#credentials">Credentials</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ol>
+    <div class="meta">Last reviewed<br>Oct 2026<br><br>Status: Published</div>
+  </nav>
+
+  <main>
+    <section class="hero" id="overview">
+      <p class="eyebrow">Amit Sharma · Senior Manager, Technical Documentation</p>
+      <h1>Documentation that <del>describes features</del> <ins>moves customers forward</ins>.</h1>
+      <p class="role">Documentation leader for enterprise SaaS and developer platforms: help centers, API and integration docs, release communication, and AI-assisted content operations.</p>
+      <div class="reach">
+        <span class="open">Open to documentation leadership roles</span>
+        <span>amit_raj_1984@yahoo.co.in</span>
+        <a href="https://www.linkedin.com/in/amit-sharma-815b9713">LinkedIn</a>
+        <a href="#contact">All contact details</a>
+      </div>
+      <p class="lede">I lead technical writers who turn complex enterprise software into content people can act on. <strong>16+ years in technical documentation</strong>, from IBM and Snapdeal to almost a decade at Sirion, where I built the documentation function for a CLM SaaS platform. I pair the traditional craft with GenAI: AI speeds up the repeatable work, and writers keep the judgment.</p>
+      <div class="facts">
+        <span><b>16+</b> years in technical writing</span>
+        <span><b>7</b> years managing writers</span>
+        <span><b>4</b> writers on my team today</span>
+        <span><b>2</b> writers promoted</span>
+        <span><b>Delhi NCR</b>, India</span>
+      </div>
+    </section>
+
+    <section id="impact">
+      <p class="eyebrow">Impact</p>
+      <h2>What the work adds up to</h2>
+      <div class="impact">
+        <div class="stat">
+          <div class="n"><del>5</del>1–2<small>days</small></div>
+          <div class="l">Time to a first draft of release notes, after I introduced LLM-based drafting workflows.</div>
+          <div class="s">Release notes · every cycle</div>
+        </div>
+        <div class="stat">
+          <div class="n">2,600+</div>
+          <div class="l">Help articles across user, administrator, API and integration, and release-note content, migrated from RoboHelp 11 to Document360.</div>
+          <div class="s">docs.sirion.ai</div>
+        </div>
+        <div class="stat">
+          <div class="n">25×</div>
+          <div class="l">Growth in monthly help center views within three months of launch, with 82% of views ending in a full read. Customers find answers themselves instead of raising a ticket.</div>
+          <div class="s">Self-service</div>
+        </div>
+        <div class="stat">
+          <div class="n">−20%</div>
+          <div class="l">Fewer tickets caused by users misunderstanding the product, year on year after the new help center launched, while total ticket volume stayed flat.</div>
+          <div class="s">H1 2026 vs H1 2025</div>
+        </div>
+        <div class="stat">
+          <div class="n">~15</div>
+          <div class="l">Custom Whatfix client accounts onboarded, adding to company revenue, after I introduced WalkMe and later led the switch to Whatfix.</div>
+          <div class="s">In-app guidance</div>
+        </div>
+        <div class="stat">
+          <div class="n">1,190+</div>
+          <div class="l">Developer and integration articles, built from scratch: the B2B API guide (v2 and v3) and guides for eight enterprise integrations.</div>
+          <div class="s">API &amp; Integration Suite</div>
+        </div>
+      </div>
+      <p class="src">Figures are from the Sirion help center on Document360 (content and article analytics), October 2026.</p>
+    </section>
+
+    <section id="samples">
+      <p class="eyebrow">Writing samples</p>
+      <h2>Published work</h2>
+      <p style="margin-bottom:20px">Public release announcements on sirion.ai, produced by my team from our release documentation. The full help center, API guides, and integration guides sit behind customer login; samples are available on request.</p>
+      <div class="samples">
+        <a class="sample" href="https://www.sirion.ai/library/whats-new/"><span class="k">Release hub</span><b>What's new at Sirion</b><span class="w">The public archive of monthly product release announcements.</span><span class="u">sirion.ai/library/whats-new</span></a>
+        <a class="sample" href="https://www.sirion.ai/library/whats-new/sirion-september-2025-product-release/"><span class="k">Release announcement</span><b>September 2025 release</b><span class="w">Smarter search, faster negotiation, and greater control.</span><span class="u">sirion.ai/library/whats-new</span></a>
+        <a class="sample" href="https://www.sirion.ai/library/whats-new/sirion-august-2025-product-release/"><span class="k">Release announcement</span><b>August 2025 release</b><span class="w">Smarter AI, faster insights, and seamless integrations.</span><span class="u">sirion.ai/library/whats-new</span></a>
+      </div>
+      <div class="samples" style="margin-top:16px">
+        <div class="sample"><span class="k">On request</span><b>B2B API developer guides</b><span class="w">Getting-started guides, v3 design rationale, and the v2-to-v3 transition guide.</span></div>
+        <div class="sample"><span class="k">On request</span><b>Integration guides</b><span class="w">SAP Ariba, Microsoft Dynamics, Salesforce, Workato, and SCIM provisioning with Okta and Entra ID.</span></div>
+        <div class="sample"><span class="k">On request</span><b>Help center articles</b><span class="w">Task-based end-user and administrator help, and customer release notes.</span></div>
+      </div>
+    </section>
+
+    <section id="craft-ai">
+      <p class="eyebrow">Craft + AI</p>
+      <h2>Traditional methods and AI, each where it works best</h2>
+      <p>I wrote documentation for 14 years before generative AI arrived. I use AI where it saves time without risking accuracy, and keep people in charge of the steps that need product knowledge and judgment.</p>
+      <div class="flow" style="margin-top:24px">
+        <div class="flow-head"><span>Step</span><span>Stage</span><span>Traditional practice</span><span>Where AI helps</span></div>
+        <div class="step"><span class="no">01</span><div><h3>Research</h3><span class="lead h">Writer-led</span></div><div class="col"><b>Traditional</b>SME interviews, product demos, user stories, and hands-on use of the feature.</div><div class="col"><b>AI</b>Summarize long tickets and comment threads into a starting brief.</div></div>
+        <div class="step"><span class="no">02</span><div><h3>First draft</h3><span class="lead a">AI-assisted</span></div><div class="col"><b>Traditional</b>Writers rewrite the draft in the house voice and fill gaps from the product.</div><div class="col"><b>AI</b>LLM-based workflows draft release notes and help updates from shipped user stories: 5 days down to 1–2.</div></div>
+        <div class="step"><span class="no">03</span><div><h3>Validation</h3><span class="lead h">Writer-led</span></div><div class="col"><b>Traditional</b>Every step tested in the product. Screenshots and field names checked against the build.</div><div class="col"><b>AI</b>None. Accuracy is checked by a person.</div></div>
+        <div class="step"><span class="no">04</span><div><h3>Editorial review</h3><span class="lead s">Shared</span></div><div class="col"><b>Traditional</b>My final redline against the Microsoft Manual of Style, CLM terminology, and publication readiness.</div><div class="col"><b>AI</b>A first-pass review that flags style, terminology, and internal references before I read.</div></div>
+        <div class="step"><span class="no">05</span><div><h3>Publish &amp; localize</h3><span class="lead s">Shared</span></div><div class="col"><b>Traditional</b>Publishing in Document360, version control, and German sign-off by a reviewer.</div><div class="col"><b>AI</b>Segment-by-segment accuracy checks of German pages against the English source.</div></div>
+      </div>
+      <p class="guard"><b>My guardrails:</b> AI never publishes. Every AI draft is built from a named source, anything inferred is flagged for the product owner, and a writer signs off before content goes live.</p>
+    </section>
+
+    <section id="work">
+      <p class="eyebrow">Selected work</p>
+      <h2>Programs I built and run</h2>
+      <div class="cases">
+        <article class="case">
+          <div class="tag"><span>Platform migration</span>RoboHelp 11 → Document360</div>
+          <div>
+            <h3>Moving the entire help center to a modern knowledge base</h3>
+            <dl>
+              <dt>Problem</dt><dd>Help content lived in RoboHelp 11, a desktop authoring tool. Publishing was slow, writers couldn't collaborate, and customers had no good web search.</dd>
+              <dt>Action</dt><dd>Spearheaded the migration of 2,600+ articles to Document360 and restructured them into separate user and administrator portals, a dedicated API and integration section, and English and German versions.</dd>
+              <dt>Result</dt><dd>A web-native help center that the team keeps current: 68% of user and administrator pages were refreshed in the last 12 months.</dd>
+            </dl>
+          </div>
+        </article>
+
+        <article class="case">
+          <div class="tag"><span>Self-service</span>Help center adoption</div>
+          <div>
+            <h3>Getting customers to answer their own questions</h3>
+            <dl>
+              <dt>Problem</dt><dd>A help center only reduces support load if customers use it. After the migration, the help manual had to become the first place customers look, not the last.</dd>
+              <dt>Action</dt><dd>Task-based articles with one consistent structure across portals, plus a monthly review that turns support tickets caused by documentation gaps into new content.</dd>
+              <dt>Result</dt><dd>Monthly views grew 25× within three months of launch, and the first half of 2026 averaged 30% more views a month than the second half of 2025. 82% of views are full reads. Over the same period, tickets classified as functional gaps or invalid bugs (users reporting expected behavior as a defect) fell 20% year on year while overall ticket volume stayed flat.</dd>
+            </dl>
+            <div class="chart" id="views-chart">
+              <h4>Monthly article views</h4>
+              <div class="sub">Indexed to the H2 2025 monthly average = 100 · English user and admin portals, Apr 2025 – Oct 2026</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="case">
+          <div class="tag"><span>Developer docs</span>Built from scratch</div>
+          <div>
+            <h3>A developer and integration documentation suite</h3>
+            <dl>
+              <dt>Problem</dt><dd>Enterprise buyers judge a CLM platform by how well it connects to the rest of their stack, and there was no developer documentation.</dd>
+              <dt>Action</dt><dd>Built the API &amp; Integration Suite from scratch, writing it myself and with my team under my supervision: getting-started and developer guides for B2B API v2 and v3, a v2-to-v3 transition guide, and setup guides for eight enterprise integrations.</dd>
+              <dt>Result</dt><dd>1,190+ articles today: 760+ for the B2B API, 396 for standard integrations, and 31 for the Sirion Integration Studio.</dd>
+            </dl>
+            <div class="intg">
+              <table>
+                <thead><tr><th>Integration guide</th><th class="num">Articles</th></tr></thead>
+                <tbody>
+                  <tr><td>Salesforce Managed Package</td><td class="num">129</td></tr>
+                  <tr><td>SAP Ariba</td><td class="num">93</td></tr>
+                  <tr><td>Microsoft Dynamics</td><td class="num">52</td></tr>
+                  <tr><td>SCIM 2.0 (user provisioning)</td><td class="num">40</td></tr>
+                  <tr><td>SAP S/4HANA</td><td class="num">34</td></tr>
+                  <tr><td>Oracle</td><td class="num">22</td></tr>
+                  <tr><td>Workato connector</td><td class="num">17</td></tr>
+                  <tr><td>SAP CPQ</td><td class="num">9</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </article>
+
+        <article class="case">
+          <div class="tag"><span>AI-assisted release docs</span>Every release cycle</div>
+          <div>
+            <h3>Release documentation drafted in a day, not a week</h3>
+            <dl>
+              <dt>Problem</dt><dd>Release notes were assembled by hand from tickets every cycle, and a first draft took five working days.</dd>
+              <dt>Action</dt><dd>Built LLM-based drafting workflows that turn shipped user stories into first drafts of release notes, release previews, help-manual updates, and website feature pages. Added a house style for release notes, an AI first-pass review returned as a redline, and an interactive sign-off email that product managers confirm per feature.</dd>
+              <dt>Result</dt><dd>First drafts in 1–2 working days instead of 5. Writers still validate every draft against the product and sign off before anything is published.</dd>
+            </dl>
+          </div>
+        </article>
+
+        <article class="case">
+          <div class="tag"><span>Digital adoption</span>WalkMe → Whatfix</div>
+          <div>
+            <h3>In-app guidance that cut training costs and earned revenue</h3>
+            <dl>
+              <dt>Problem</dt><dd>New users needed training to get started, and how-to questions turned into support tickets.</dd>
+              <dt>Action</dt><dd>Introduced WalkMe to move user onboarding and feature adoption into the product. Later led the switch to Whatfix, migrated the in-app content, and onboarded custom Whatfix accounts for clients, gathering their requirements directly.</dd>
+              <dt>Result</dt><dd>Lower training costs, fewer how-to tickets, and around 15 custom Whatfix client accounts that contributed to company revenue.</dd>
+            </dl>
+          </div>
+        </article>
+      </div>
+
+      <details class="more">
+        <summary>More work <span>6 programs</span></summary>
+        <div class="more-grid">
+          <div><h4>Building the documentation function</h4><p>Set up the documentation framework at SirionLabs in 2017, created templates and editorial standards based on the Microsoft Manual of Style, and introduced release tracking and SLA and KPI-driven delivery.</p></div>
+          <div><h4>Closing help-manual gaps found by support</h4><p>A monthly review of support tickets classified as functional gaps, invalid bugs, or general queries. Missing coverage becomes tracked documentation tasks, and support gets a monthly briefing on what changed.</p></div>
+          <div><h4>Product operations</h4><p>An organization-wide monthly newsletter, monthly release feature walkthroughs, five brown bag sessions, and SKU descriptions for presales. My team is the first line of defence for product questions from sales, presales, support, customer success, and account teams.</p></div>
+          <div><h4>German localization</h4><p>840+ German help pages with segment-level accuracy checks against the English source, a formal <i>Sie</i> house style, and an EN–DE glossary.</p></div>
+          <div><h4>Feature pages for buyers</h4><p>Website feature descriptions mapped to business outcomes, with configuration effort classified per feature and API content kept light on technical detail.</p></div>
+          <div><h4>AI review and terminology workflows</h4><p>Integration-guide audits that also check readiness for AI agents and support bots, glossary drafting for terms customers confuse, and a daily industry brief for the team.</p></div>
+        </div>
+      </details>
+    </section>
+
+    <section id="leadership">
+      <p class="eyebrow">Leadership</p>
+      <h2>Running a documentation team</h2>
+      <div class="split">
+        <div>
+          <h3 style="margin-bottom:14px">People</h3>
+          <ul class="clean">
+            <li>Built the team from scratch; today four writers from associate to senior technical writer.</li>
+            <li>Promoted two writers, and most writers stay on the team for the long term.</li>
+            <li>Run appraisals, set KRAs, and build a development plan for each writer.</li>
+            <li>Give feedback through redlines, so writers see exactly what changed and why.</li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="margin-bottom:14px">Operations</h3>
+          <ul class="clean">
+            <li>Own release documentation and product-manager sign-off every cycle.</li>
+            <li>Run delivery against SLAs and KPIs across all documentation projects.</li>
+            <li>First line of defence for product questions from sales, presales, support, customer success, and account teams.</li>
+            <li>Run monthly release walkthroughs and an organization-wide newsletter.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="toolkit">
+      <p class="eyebrow">Toolkit</p>
+      <h2>Tools and standards</h2>
+      <div class="toolkit">
+        <div>
+          <h3>Authoring &amp; publishing</h3>
+          <div class="chips"><span class="chip">Document360</span><span class="chip">RoboHelp</span><span class="chip">Confluence</span><span class="chip">Microsoft Word</span><span class="chip">HTML</span><span class="chip">Markdown</span><span class="chip">SharePoint</span></div>
+        </div>
+        <div>
+          <h3>In-app &amp; API</h3>
+          <div class="chips"><span class="chip">Whatfix</span><span class="chip">WalkMe</span><span class="chip">OpenAPI / Swagger specs</span><span class="chip">Postman</span><span class="chip">REST APIs</span><span class="chip">LMS</span></div>
+        </div>
+        <div>
+          <h3>Planning &amp; delivery</h3>
+          <div class="chips"><span class="chip">Jira</span><span class="chip">SLA &amp; KPI tracking</span><span class="chip">Excel trackers</span><span class="chip">PowerPoint</span><span class="chip">Process diagrams</span></div>
+        </div>
+        <div>
+          <h3>Standards &amp; AI</h3>
+          <div class="chips"><span class="chip">Microsoft Manual of Style</span><span class="chip">Glossary management</span><span class="chip">Localization QA</span><span class="chip">Claude</span><span class="chip">ChatGPT</span><span class="chip">Google Gemini</span><span class="chip">Napkin</span><span class="chip">Prompt engineering</span><span class="chip">RAG</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="changelog">
+      <p class="eyebrow">Career changelog</p>
+      <h2>Release history</h2>
+      <div class="changelog">
+        <div class="release">
+          <div class="ver"><b>2024 – now</b>Gurugram</div>
+          <div>
+            <h3><span class="badge cur">Current</span>Sirion</h3>
+            <div class="roles">
+              <div class="role"><b>Senior Manager, Technical Documentation</b><span class="d">Jun 2026 – present</span></div>
+              <div class="role"><b>Manager, Technical Documentation</b><span class="d">Feb 2024 – Jun 2026</span></div>
+            </div>
+            <ul>
+              <li>Rejoined to lead technical documentation, including help center, release, and website feature content; promoted to Senior Manager in 2026.</li>
+              <li>Spearheaded the migration of 2,600+ help articles from RoboHelp 11 to Document360.</li>
+              <li>Built the developer and integration documentation from scratch: B2B API guides and guides for SAP Ariba, Microsoft Dynamics, Workato, and more.</li>
+              <li>Built LLM-based drafting workflows that cut release-note first drafts from 5 working days to 1–2.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="release">
+          <div class="ver"><b>2023 – 2024</b>7 months</div>
+          <div>
+            <h3>Career break</h3>
+            <p>Jul 2023 – Jan 2024. Returned to Sirion in February 2024 to lead technical documentation.</p>
+          </div>
+        </div>
+        <div class="release">
+          <div class="ver"><b>2017 – 2023</b>Gurugram</div>
+          <div>
+            <h3>SirionLabs</h3>
+            <div class="roles">
+              <div class="role"><b>Manager, Technical Writing</b><span class="d">Jan 2022 – Jun 2023</span></div>
+              <div class="role"><b>Associate Manager</b><span class="d">Aug 2019 – Dec 2021</span></div>
+              <div class="role"><b>Senior Technical Writer</b><span class="d">Apr 2017 – Aug 2019</span></div>
+            </div>
+            <ul>
+              <li>Set up the documentation framework and restructured the core product documentation.</li>
+              <li>Introduced WalkMe for in-app user onboarding, reducing training costs and support tickets; later led the switch to Whatfix and onboarded around 15 custom client accounts that contributed to revenue.</li>
+              <li>Created MSTP-based templates and editorial standards; ran editorial review of the team's work.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="release">
+          <div class="ver"><b>2015 – 2017</b>Gurugram</div>
+          <div>
+            <h3>Snapdeal · Senior Technical Writer</h3>
+            <p>Documented REST APIs from OpenAPI (Swagger) specifications and tested them in Postman; maintained the document repository, and built internal wikis in Confluence. Designed process flows, sequence diagrams, and system architecture diagrams for product modules. Ran monthly tech talks.</p>
+          </div>
+        </div>
+        <div class="release">
+          <div class="ver"><b>2008 – 2015</b>Delhi NCR</div>
+          <div>
+            <h3>Earlier roles · Technical Writer to Senior Technical Writer</h3>
+            <p>Paramarsh Informatics, SThree Telepresence, Aptara, IBM India, and Kogent Learning Solutions. User guides, administrator and integration guides, release notes, SRS, and training material for software products; set up the documentation framework and LMS at SThree Telepresence.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="credentials">
+      <p class="eyebrow">Credentials</p>
+      <h2>Education and certifications</h2>
+      <div class="creds">
+        <div>
+          <h3 style="margin-bottom:14px">Education</h3>
+          <ul>
+            <li>Master of Computer Applications (MCA)<small>Indira Gandhi National Open University</small></li>
+            <li>Bachelor of Computer Applications (BCA)<small>Indira Gandhi National Open University</small></li>
+          </ul>
+          <h3 style="margin:28px 0 14px">Languages</h3>
+          <ul>
+            <li>English<small>Full professional</small></li>
+            <li>Hindi<small>Native</small></li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="margin-bottom:14px">Certifications</h3>
+          <ul>
+            <li>How to Research and Write Using Generative AI Tools</li>
+            <li>AI Agents for Product Leaders</li>
+            <li>LLM Foundations: Vector Databases for Caching and Retrieval Augmented Generation (RAG)</li>
+            <li>Introduction to Prompt Engineering for Generative AI</li>
+            <li>Instructional Design: Needs Analysis</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="contact">
+        <p class="eyebrow" style="margin:0">Contact</p>
+        <h2 style="margin:0">Looking for a documentation leader?</h2>
+        <p>I'm open to conversations about leading documentation, content design, or knowledge teams at product companies.</p>
+        <div class="rows">
+          <div><span class="k">Email</span><span id="em">amit_raj_1984@yahoo.co.in</span><button class="copy" id="copy-email" type="button">Copy</button></div>
+          <div><span class="k">LinkedIn</span><a href="https://www.linkedin.com/in/amit-sharma-815b9713">linkedin.com/in/amit-sharma-815b9713</a></div>
+          <div><span class="k">Location</span><span>Delhi NCR, India</span></div>
+        </div>
+      </div>
+    </section>
+    <script>
+    (function(){
+      var d=[['Apr 2025',393],['May 2025',974],['Jun 2025',3565],['Jul 2025',10445],['Aug 2025',9179],['Sep 2025',10899],['Oct 2025',9256],['Nov 2025',11439],['Dec 2025',9377],['Jan 2026',10677],['Feb 2026',13134],['Mar 2026',13947],['Apr 2026',12861],['May 2026',9061],['Jun 2026',18874],['Jul 2026',10055],['Aug 2026',9727],['Sep 2026',9117],['Oct 2026',8554]];
+      var box=document.getElementById('views-chart'); if(!box) return;
+      var base=10099; d=d.map(function(p){return [p[0],Math.round(p[1]/base*100)]});
+      var W=640,H=220,L=36,R=6,T=18,B=24,max=200,n=d.length,step=(W-L-R)/n,bw=step-4;
+      var y=function(v){return T+(H-T-B)*(1-v/max)};
+      var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Monthly help center views indexed to the second-half-2025 average of 100, rising from 4 at launch to around 100 within three months, peaking at 187 in June 2026">';
+      [0,50,100,150,200].forEach(function(v){s+='<line class="grid" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(v)+'" y2="'+y(v)+'"/><text class="ax" x="'+(L-6)+'" y="'+(y(v)+3)+'" text-anchor="end">'+v+'</text>'});
+      d.forEach(function(p,i){var x=L+i*step+2,yy=y(p[1]),h=y(0)-yy,r=Math.min(4,h/2);
+        s+='<path class="bar'+(p[0].indexOf('2026')<0?' dim':'')+'" data-i="'+i+'" tabindex="0" d="M'+x+','+y(0)+'V'+(yy+r)+'Q'+x+','+yy+' '+(x+r)+','+yy+'H'+(x+bw-r)+'Q'+(x+bw)+','+yy+' '+(x+bw)+','+(yy+r)+'V'+y(0)+'Z"/>';
+        if(i%3===0) s+='<text class="ax" x="'+(x+bw/2)+'" y="'+(H-8)+'" text-anchor="middle">'+p[0].replace(' 20'," '")+'</text>';
+      });
+      var pi=14; s+='<text class="ann" x="'+(L+pi*step+2+bw/2)+'" y="'+(y(d[pi][1])-6)+'" text-anchor="middle">Peak</text>';
+      s+='</svg>'; box.insertAdjacentHTML('beforeend',s);
+      var tip=document.createElement('div'); tip.className='tip'; tip.hidden=true; box.appendChild(tip);
+      function show(e){var t=e.target; if(!t.dataset||t.dataset.i===undefined) return; var p=d[+t.dataset.i], br=t.getBoundingClientRect(), bb=box.getBoundingClientRect();
+        tip.textContent=p[0]+' · index '+p[1]; tip.style.left=(br.left-bb.left+br.width/2)+'px'; tip.style.top=(br.top-bb.top)+'px'; tip.hidden=false;}
+      box.addEventListener('mouseover',show); box.addEventListener('focusin',show);
+      box.addEventListener('mouseleave',function(){tip.hidden=true}); box.addEventListener('focusout',function(){tip.hidden=true});
+    })();
+    document.getElementById('copy-email').addEventListener('click', function(){
+      var b=this, t=document.getElementById('em').textContent;
+      function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('em'));var s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected';}
+      try{navigator.clipboard.writeText(t).then(function(){b.textContent='Copied';},sel);}catch(e){sel();}
+    });
+    </script>
+
+    <footer>Amit Sharma · Portfolio · Written and reviewed to the same standard as everything else I publish.</footer>
+  </main>
+</div>
+
+</body>
+</html>
